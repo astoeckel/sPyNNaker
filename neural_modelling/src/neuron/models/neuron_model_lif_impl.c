@@ -10,6 +10,9 @@ static inline void _lif_neuron_closed_form(
 
     // update membrane voltage
     neuron->V_membrane = alpha - (neuron->exp_TC * (alpha - V_prev));
+    if (neuron->V_membrane < neuron->V_membrane_min) {
+        neuron->V_membrane = neuron->V_membrane_min;
+    }
 }
 
 void neuron_model_set_global_neuron_params(

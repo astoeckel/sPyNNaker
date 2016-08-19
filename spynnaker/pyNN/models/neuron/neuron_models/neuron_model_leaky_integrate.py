@@ -8,11 +8,10 @@ from data_specification.enums.data_type import DataType
 
 import numpy
 
-
 class NeuronModelLeakyIntegrate(AbstractNeuronModel):
 
     def __init__(self, n_neurons, machine_time_step, v_init, v_rest, tau_m, cm,
-                 i_offset):
+                 i_offset, v_membrane_min = DataType.S1615.min):
         AbstractNeuronModel.__init__(self)
         self._n_neurons = n_neurons
         self._machine_time_step = machine_time_step
@@ -22,6 +21,8 @@ class NeuronModelLeakyIntegrate(AbstractNeuronModel):
         self._cm = utility_calls.convert_param_to_numpy(cm, n_neurons)
         self._i_offset = utility_calls.convert_param_to_numpy(
             i_offset, n_neurons)
+        self._v_membrane_min = utility_calls.convert_param_to_numpy(
+            v_membrane_min, n_neurons)
 
         if v_init is None:
             self._v_init = v_rest
@@ -75,6 +76,15 @@ class NeuronModelLeakyIntegrate(AbstractNeuronModel):
             i_offset, self._n_neurons)
 
     @property
+    def v_membrane_min(self):
+        return self._v_membrane_min
+
+    @v_membrane_min.setter
+    def v_membrane_min(self, v_membrane_min):
+        self._v_membrane_min = utility_calls.convert_param_to_numpy(
+            v_membrane_min, self._n_neurons)
+
+    @property
     def _r_membrane(self):
         return self._tau_m / self._cm
 
@@ -109,7 +119,11 @@ class NeuronModelLeakyIntegrate(AbstractNeuronModel):
 
             # offset current [nA]
             # REAL     I_offset;
-            NeuronParameter(self._i_offset, DataType.S1615)
+            NeuronParameter(self._i_offset, DataType.S1615),
+
+            # membrane voltage [mV]
+            # REAL     V_membrane_min;
+            NeuronParameter(self._v_membrane_min, DataType.S1615)
         ]
 
     def get_n_global_parameters(self):

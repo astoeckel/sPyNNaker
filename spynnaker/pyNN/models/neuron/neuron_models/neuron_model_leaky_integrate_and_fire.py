@@ -12,10 +12,10 @@ import numpy
 class NeuronModelLeakyIntegrateAndFire(NeuronModelLeakyIntegrate):
 
     def __init__(self, n_neurons, machine_time_step, v_init, v_rest, tau_m, cm,
-                 i_offset, v_reset, tau_refrac):
+                 i_offset, v_reset, tau_refrac, v_membrane_min = DataType.S1615.min):
         NeuronModelLeakyIntegrate.__init__(
             self, n_neurons, machine_time_step, v_init, v_rest, tau_m, cm,
-            i_offset)
+            i_offset, v_membrane_min)
         self._v_reset = utility_calls.convert_param_to_numpy(
             v_reset, n_neurons)
         self._tau_refrac = utility_calls.convert_param_to_numpy(

@@ -41,7 +41,7 @@ class IFCondExp(AbstractPopulationVertex):
 
         neuron_model = NeuronModelLeakyIntegrateAndFire(
             n_neurons, machine_time_step, v_init, v_rest, tau_m, cm, i_offset,
-            v_reset, tau_refrac)
+            v_reset, tau_refrac, min(v_rest, v_reset, e_rev_E, e_rev_I))
         synapse_type = SynapseTypeExponential(
             n_neurons, machine_time_step, tau_syn_E, tau_syn_I)
         input_type = InputTypeConductance(n_neurons, e_rev_E, e_rev_I)

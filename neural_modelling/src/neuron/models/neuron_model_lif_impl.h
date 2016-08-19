@@ -24,6 +24,9 @@ typedef struct neuron_t {
     // offset current [nA]
     REAL     I_offset;
 
+    // minimum membrane voltage [mV]
+    REAL     V_membrane_min;
+
     // countdown to end of next refractory period [timesteps]
     int32_t  refract_timer;
 
