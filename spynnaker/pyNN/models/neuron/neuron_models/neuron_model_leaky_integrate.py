@@ -94,7 +94,7 @@ class NeuronModelLeakyIntegrate(AbstractNeuronModel):
                          (1000.0 * self._tau_m))
 
     def get_n_neural_parameters(self):
-        return 5
+        return 6
 
     def get_neural_parameters(self):
         return [
